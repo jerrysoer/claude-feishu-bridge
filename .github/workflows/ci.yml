@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    name: Validate scripts and config
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check bash syntax on all scripts
+        run: |
+          set -e
+          fail=0
+          for f in bin/claude-feishu-bridge scripts/*.sh; do
+            if bash -n "$f"; then
+              echo "OK $f"
+            else
+              echo "FAIL $f"
+              fail=1
+            fi
+          done
+          exit $fail
+
+      - name: Install shellcheck
+        run: sudo apt-get install -y shellcheck
+
+      - name: Run shellcheck (warnings only, non-blocking)
+        run: |
+          shellcheck -S warning scripts/*.sh || true
+
+      - name: Verify templates/config.toml is tracked
+        run: |
+          if git ls-files --error-unmatch templates/config.toml >/dev/null 2>&1; then
+            echo "OK templates/config.toml is tracked"
+          else
+            echo "FAIL templates/config.toml is NOT tracked -- .gitignore bug?"
+            exit 1
+          fi
+
+      - name: Run pre-publish leak scan
+        run: |
+          bash scripts/pre-publish-check.sh

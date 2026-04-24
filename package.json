@@ -1,0 +1,30 @@
+{
+  "name": "claude-feishu-bridge",
+  "version": "0.1.0",
+  "description": "Drive Claude Code from Feishu DMs. Opinionated cc-connect starter.",
+  "bin": {
+    "claude-feishu-bridge": "./bin/claude-feishu-bridge"
+  },
+  "scripts": {
+    "build": "echo 'No build step (bash-only project)'",
+    "postinstall": "echo 'Next: run claude-feishu-bridge setup'"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "author": "jerrysoer",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jerrysoer/claude-feishu-bridge.git"
+  },
+  "keywords": [
+    "claude",
+    "claude-code",
+    "feishu",
+    "lark",
+    "cc-connect",
+    "bot",
+    "bridge"
+  ]
+}

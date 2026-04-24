@@ -1,0 +1,23 @@
+# Local cc-connect state — never commit credentials or session history
+.cc-connect/
+/config.toml
+config.toml.bak-*
+
+# Logs
+*.log
+logs/
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# OS cruft
+.DS_Store
+Thumbs.db
+
+# Editor cruft
+.idea/
+.vscode/
+*.swp
+*~

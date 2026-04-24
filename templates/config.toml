@@ -1,0 +1,51 @@
+# claude-feishu-bridge — cc-connect config
+# Full reference: https://github.com/chenhg5/cc-connect/blob/main/config.example.toml
+
+language = "en"
+
+[log]
+level = "info"
+
+[[projects]]
+name = "default"
+# admin_from is set by `claude-feishu-bridge configure <user_id>`.
+# Until then, privileged commands (/shell, /dir, /restart, /upgrade) are blocked.
+# admin_from = "ou_XXXXXXXX"
+
+[projects.agent]
+type = "claudecode"
+
+[projects.agent.options]
+# Absolute path — cc-connect does NOT expand ~ here.
+# The setup script rewrites this line to whatever you enter at the prompt.
+work_dir = "CHANGEME_ABSOLUTE_PATH"
+
+# Permission mode for Claude Code tool calls.
+#   default            — ask for every tool call
+#   acceptEdits        — auto-approve Edit / Write; still ask for others
+#   plan               — plan only, no execution until approved
+#   bypassPermissions  — approve everything (careful)
+mode = "acceptEdits"
+
+# Tools pre-approved across all modes. Anything not listed still prompts.
+# "Bash" is intentionally omitted — add it if you trust all prompts fully,
+# but be aware it auto-approves arbitrary shell commands from chat messages.
+allowed_tools = ["Read", "Grep", "Glob", "Edit", "Write", "WebFetch", "WebSearch"]
+
+[[projects.platforms]]
+type = "feishu"
+
+[projects.platforms.options]
+# Filled in by `cc-connect feishu setup` during initial QR onboarding.
+app_id = "YOUR_APP_ID"
+app_secret = "YOUR_APP_SECRET"
+
+# How intermediate tool calls are rendered in Feishu:
+#   card     — single structured card that updates in place (default here)
+#   compact  — single plain message edited in place
+#   legacy   — one new message per tool call (noisy)
+progress_style = "card"
+
+# allow_from is set by `claude-feishu-bridge configure <user_id>`.
+# Until then, the bot accepts messages from anyone in your tenant who finds it.
+# allow_from = "ou_XXXXXXXX"

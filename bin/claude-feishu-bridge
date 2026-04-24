@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Resolve repo root from the bin script's real path (handles symlinks).
+SCRIPT_PATH="${BASH_SOURCE[0]}"
+while [ -L "$SCRIPT_PATH" ]; do
+  SCRIPT_DIR="$(cd -P "$(dirname "$SCRIPT_PATH")" && pwd)"
+  SCRIPT_PATH="$(readlink "$SCRIPT_PATH")"
+  [[ "$SCRIPT_PATH" != /* ]] && SCRIPT_PATH="$SCRIPT_DIR/$SCRIPT_PATH"
+done
+ROOT="$(cd -P "$(dirname "$SCRIPT_PATH")/.." && pwd)"
+
+usage() {
+  cat <<EOF
+claude-feishu-bridge — run Claude Code from Feishu DMs
+
+Usage:
+  claude-feishu-bridge <command> [args]
+
+Commands:
+  setup                 Install cc-connect, bootstrap config, and run Feishu QR onboarding.
+  configure <user_id>   Lock the bot to your Feishu user_id and start the daemon.
+  status                Show the background daemon's status.
+  logs [-f] [-n N]      Tail the daemon log. -f to follow.
+  restart               Restart the daemon (after editing config).
+  stop                  Stop the daemon (without uninstalling).
+  start                 Start the daemon (if previously stopped).
+  config                Open ~/.cc-connect/config.toml in \$EDITOR.
+  uninstall             Remove the daemon and optionally ~/.cc-connect/.
+  help                  Show this message.
+EOF
+}
+
+cmd="${1:-help}"
+shift || true
+
+case "$cmd" in
+  setup)
+    exec bash "$ROOT/scripts/setup.sh" "$@"
+    ;;
+  configure)
+    exec bash "$ROOT/scripts/configure.sh" "$@"
+    ;;
+  uninstall)
+    exec bash "$ROOT/scripts/uninstall.sh" "$@"
+    ;;
+  status|start|stop|restart)
+    exec cc-connect daemon "$cmd" "$@"
+    ;;
+  logs)
+    exec cc-connect daemon logs "$@"
+    ;;
+  config)
+    "${EDITOR:-vi}" "$HOME/.cc-connect/config.toml"
+    ;;
+  help|-h|--help)
+    usage
+    ;;
+  *)
+    echo "Unknown command: $cmd" >&2
+    echo >&2
+    usage >&2
+    exit 1
+    ;;
+esac
