@@ -44,6 +44,10 @@ jobs:
             exit 1
           fi
 
+      - name: Dry-run help output
+        run: |
+          bash bin/claude-feishu-bridge help
+
       - name: Run pre-publish leak scan
         run: |
           bash scripts/pre-publish-check.sh

@@ -79,7 +79,7 @@ All configuration is in `~/.cc-connect/config.toml`. The knobs you're most likel
 - **`allowed_tools`** — tools that never prompt. The default includes common read/write tools but _not_ `Bash` (which would auto-approve arbitrary shell commands from chat). Add `"Bash"`, `"TodoWrite"`, `"Task"`, etc. as needed.
 - **`progress_style`** — `card` (default here; rolling progress card), `compact` (single rolling message), or `legacy` (a message per tool call).
 
-cc-connect supports a lot more than this starter exposes — multiple projects, multiple agents (Codex, Gemini, Cursor, etc.), cron jobs, heartbeats, voice messages, custom slash commands, cross-project relay. See the [upstream config reference](https://github.com/chenhg5/cc-connect/blob/main/config.example.toml) — everything there works in `~/.cc-connect/config.toml`.
+cc-connect supports a lot more than this starter exposes — multiple projects, multiple LLM agents, cron jobs, heartbeats, voice messages, custom slash commands, cross-project relay. See the [upstream config reference](https://github.com/chenhg5/cc-connect/blob/main/config.example.toml) — everything there works in `~/.cc-connect/config.toml`.
 
 ## Uninstall
 

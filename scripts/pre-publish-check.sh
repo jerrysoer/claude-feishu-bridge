@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -uo pipefail
+set -euo pipefail
 
 # scripts/pre-publish-check.sh — run before pushing to a public remote.
 #

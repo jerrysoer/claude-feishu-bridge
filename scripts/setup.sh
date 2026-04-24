@@ -58,7 +58,7 @@ log "Staged config template at $CONFIG_PATH"
 
 # --- 4. Prompt for work_dir ----------------------------------------------------
 
-default_workdir="$HOME/code/your-project"
+default_workdir="$(pwd)"
 printf '\n'
 read -r -p "Absolute path where Claude Code should operate [$default_workdir]: " workdir
 workdir="${workdir:-$default_workdir}"

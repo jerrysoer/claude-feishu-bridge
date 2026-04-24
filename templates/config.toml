@@ -13,6 +13,8 @@ name = "default"
 # admin_from = "ou_XXXXXXXX"
 
 [projects.agent]
+# Agent type. "claudecode" uses the Claude Code CLI.
+# See upstream docs for other agents (e.g., "openai", "gemini").
 type = "claudecode"
 
 [projects.agent.options]

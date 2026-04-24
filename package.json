@@ -7,7 +7,7 @@
   },
   "scripts": {
     "build": "echo 'No build step (bash-only project)'",
-    "postinstall": "echo 'Next: run claude-feishu-bridge setup'"
+    "validate": "bash scripts/pre-publish-check.sh"
   },
   "engines": {
     "node": ">=18"
